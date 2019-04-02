@@ -1,6 +1,6 @@
 # Exentbrite
 
-**TODO: Add description**
+Simple Elixir wrapper for the [Eventbrite V3 API](https://www.eventbrite.com/platform/docs/introduction).
 
 ## Installation
 
