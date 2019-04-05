@@ -9,9 +9,15 @@ defmodule Exentbrite do
 
   """
   def get(path, client, query_params \\ []) do
-    _url =
-      client
-      |> add_path_to_endpoint(path)
+    url =
+      client |> add_path_to_endpoint(path)
+      |> add_params_to_url(query_params)
+
+    make_request(
+      :get,
+      url,
+      client.auth
+    )
   end
 
   @doc """
@@ -95,6 +101,41 @@ defmodule Exentbrite do
 
   """
   def encode_body(data), do: Poison.encode!(data)
+
+  @doc """
+  Append query parameters to url
+  Source: Eduardo Gurgel Pinho, github.com/edgurgel/tentacat
+
+  """
+  def add_params_to_url(url, params) do
+    url
+    |> URI.parse()
+    |> merge_uri_params(params)
+    |> String.Chars.to_string()
+  end
+
+  defp merge_uri_params(uri, []), do: uri
+
+  defp merge_uri_params(%URI{query: nil} = uri, params) when is_list(params) or is_map(params) do
+    uri
+    |> Map.put(:query, URI.encode_query(params))
+  end
+
+  defp merge_uri_params(%URI{} = uri, params) when is_list(params) or is_map(params) do
+    uri
+    |> Map.update!(:query, fn q ->
+      q
+      |> URI.decode_query()
+      |> Map.merge(param_list_to_map_with_string_keys(params))
+      |> URI.encode_query()
+    end)
+  end
+
+  defp param_list_to_map_with_string_keys(list) when is_list(list) or is_map(list) do
+    for {key, value} <- list, into: Map.new() do
+      {"#{key}", value}
+    end
+  end
 
   defp add_path_to_endpoint(_ = %Client{endpoint: endpoint}, path) do
     endpoint <> path
