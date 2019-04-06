@@ -16,8 +16,8 @@ defmodule Exentbrite do
     make_request(
       :get,
       url,
-      client.auth
-    )
+      client.auth)
+    |> decode()
   end
 
   @doc """
@@ -30,6 +30,7 @@ defmodule Exentbrite do
       client |> add_path_to_endpoint(path),
       client.auth,
       body)
+    |> decode()
   end
 
   @doc """
@@ -42,6 +43,7 @@ defmodule Exentbrite do
       client |> add_path_to_endpoint(path),
       client.auth,
       body)
+    |> decode()
   end
 
   @doc """
@@ -54,6 +56,7 @@ defmodule Exentbrite do
       client |> add_path_to_endpoint(path),
       client.auth,
       body)
+    |> decode()
   end
 
   @doc """
@@ -66,11 +69,12 @@ defmodule Exentbrite do
       client |> add_path_to_endpoint(path),
       client.auth,
       body)
+    |> decode()
   end
 
 
   @doc """
-  Make request to the API and return the json response
+  Make request to the API and return raw response
 
   """
   def make_request(method, url, auth, body \\ "", headers \\ [], options \\ []) do
@@ -81,6 +85,11 @@ defmodule Exentbrite do
       authorization_header(auth, @user_agent) ++ headers,
       options
     )
+    |> case do
+         {:ok, %{body: raw, status_code: code}} ->
+           {code, raw}
+         {:error, %{reason: reason}} -> {:error, reason, []}
+       end
   end
 
   @doc """
@@ -112,6 +121,18 @@ defmodule Exentbrite do
     |> URI.parse()
     |> merge_uri_params(params)
     |> String.Chars.to_string()
+  end
+
+  @doc """
+  Decode json reponse
+  """
+  def decode({ok, body}) do
+    body
+    |> Poison.decode(keys: :atoms)
+    |> case do
+         {:ok, parsed} -> {ok, parsed}
+         _ -> {:error, body}
+       end
   end
 
   defp merge_uri_params(uri, []), do: uri
