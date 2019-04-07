@@ -29,8 +29,8 @@ defmodule Exentbrite.Events do
       Exentbrite.Events.create_by_copy client, 1234567890, options
 
   """
-  def create_by_copy(client, copy_from_id, options \\ []) do
-    copy(client, copy_from_id, options)
+  def create_by_copy(client, event_id, options \\ []) do
+    copy(client, event_id, options)
   end
 
   @doc """
@@ -39,8 +39,17 @@ defmodule Exentbrite.Events do
   Returns the newly created Event.
 
   """
-  def copy(client, copy_from_id, options \\ []) do
-    path = "events/#{copy_from_id}/copy/"
+  def copy(client, event_id, options \\ []) do
+    path = "events/#{event_id}/copy/"
     Exentbrite.post(path, client, options)
+  end
+
+  @doc """
+  Delete an event
+
+  """
+  def delete(client, event_id) do
+    path = "events/#{event_id}/"
+    Exentbrite.delete(path, client)
   end
 end
