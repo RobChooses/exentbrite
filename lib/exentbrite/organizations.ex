@@ -1,7 +1,6 @@
 defmodule Exentbrite.Organizations do
   @doc """
-  List the Organizations of user ID or you as default
-
+  List the Organizations of user ID or the authenticated user (me) as default
   ## Example
 
       Exentbrite.Organizations.list client
