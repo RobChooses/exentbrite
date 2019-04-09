@@ -109,9 +109,11 @@ defmodule Exentbrite do
   Encode the request data to JSON
 
   """
-  def encode_body(data) do
+  def encode_body(data) when is_map(data) do
     Jason.encode!(data)
   end
+
+  def encode_body(data), do: data
 
   @doc """
   Append query parameters to url
