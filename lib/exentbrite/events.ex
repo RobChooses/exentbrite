@@ -80,4 +80,30 @@ defmodule Exentbrite.Events do
     path = "events/#{event_id}/"
     Exentbrite.get(path, client)
   end
+
+  @doc """
+  Publish an event
+
+  ## Examples
+
+      Exentbrite.Events.publish client, 1234567890
+
+  """
+  def publish(client, event_id) do
+    path = "events/#{event_id}/publish/"
+    Exentbrite.post(path, client, event_id)
+  end
+
+  @doc """
+  Unpublish an event
+
+  ## Examples
+
+      Exentbrite.Events.unpublish client, 1234567890
+
+  """
+  def unpublish(client, event_id) do
+    path = "events/#{event_id}/unpublish/"
+    Exentbrite.post(path, client, event_id)
+  end
 end
