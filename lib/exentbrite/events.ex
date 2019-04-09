@@ -11,7 +11,7 @@ defmodule Exentbrite.Events do
   @doc """
   Create an event
 
-  ## Examples
+  ## Example
 
       Exentbrite.Events.create client, 666666, options
 
@@ -24,7 +24,7 @@ defmodule Exentbrite.Events do
   @doc """
   Create an event by copying from another event id
 
-  ## Examples
+  ## Example
 
       Exentbrite.Events.create_by_copy client, 1234567890, options
 
@@ -56,7 +56,7 @@ defmodule Exentbrite.Events do
   @doc """
   Update an event
 
-  ## Examples
+  ## Example
 
       # To change the name of an event
       options = %{event: %{name: %{html: "test3"}}}
@@ -71,7 +71,7 @@ defmodule Exentbrite.Events do
   @doc """
   Retrieve an event
 
-  ## Examples
+  ## Example
 
       Exentbrite.Events.retrieve client, 1234567890
 
@@ -84,7 +84,7 @@ defmodule Exentbrite.Events do
   @doc """
   Publish an event
 
-  ## Examples
+  ## Example
 
       Exentbrite.Events.publish client, 1234567890
 
@@ -97,7 +97,7 @@ defmodule Exentbrite.Events do
   @doc """
   Unpublish an event
 
-  ## Examples
+  ## Example
 
       Exentbrite.Events.unpublish client, 1234567890
 
@@ -106,4 +106,19 @@ defmodule Exentbrite.Events do
     path = "events/#{event_id}/unpublish/"
     Exentbrite.post(path, client, event_id)
   end
+
+  @doc """
+  Cancel an event
+
+  ## Example
+
+      Exentbrite.Events.cancel client, 1234567890
+
+  """
+  def cancel(client, event_id) do
+    path = "events/#{event_id}/cancel/"
+    Exentbrite.post(path, client, event_id)
+  end
+
+
 end
