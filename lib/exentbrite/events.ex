@@ -1,4 +1,9 @@
 defmodule Exentbrite.Events do
+  @moduledoc """
+  API for Events
+
+  """
+
   @doc """
   List Events by Organization ID
 
@@ -119,6 +124,4 @@ defmodule Exentbrite.Events do
     path = "events/#{event_id}/cancel/"
     Exentbrite.post(path, client, event_id)
   end
-
-
 end
