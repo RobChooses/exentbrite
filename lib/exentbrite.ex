@@ -82,7 +82,7 @@ defmodule Exentbrite do
       method,
       url,
       body |> encode_body(),
-      authorization_header(auth, @user_agent) ++ headers,
+      authorization_header(auth, @user_agent) ++ content_type() ++ headers,
       options
     )
     |> case do
@@ -109,7 +109,9 @@ defmodule Exentbrite do
   Encode the request data to JSON
 
   """
-  def encode_body(data), do: Poison.encode!(data)
+  def encode_body(data) do
+    Jason.encode!(data)
+  end
 
   @doc """
   Append query parameters to url
@@ -128,7 +130,7 @@ defmodule Exentbrite do
   """
   def decode({ok, body}) do
     body
-    |> Poison.decode(keys: :atoms)
+    |> Jason.decode(keys: :atoms)
     |> case do
          {:ok, parsed} -> {ok, parsed}
          _ -> {:error, body}
@@ -161,6 +163,8 @@ defmodule Exentbrite do
   defp add_path_to_endpoint(_ = %Client{endpoint: endpoint}, path) do
     endpoint <> path
   end
+
+  defp content_type(), do: [{"Content-Type", "application/json"}]
 
 
 end
