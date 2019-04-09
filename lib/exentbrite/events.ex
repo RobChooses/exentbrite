@@ -58,6 +58,7 @@ defmodule Exentbrite.Events do
 
   ## Examples
 
+      # To change the name of an event
       options = %{event: %{name: %{html: "test3"}}}
       Exentbrite.Events.update client, 1234567890, options
 
@@ -65,5 +66,18 @@ defmodule Exentbrite.Events do
   def update(client, event_id, options \\ []) do
     path = "events/#{event_id}/"
     Exentbrite.post(path, client, options)
+  end
+
+  @doc """
+  Retrieve an event
+
+  ## Examples
+
+      Exentbrite.Events.retrieve client, 1234567890
+
+  """
+  def retrieve(client, event_id) do
+    path = "events/#{event_id}/"
+    Exentbrite.get(path, client)
   end
 end
