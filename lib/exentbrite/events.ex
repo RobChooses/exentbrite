@@ -52,4 +52,18 @@ defmodule Exentbrite.Events do
     path = "events/#{event_id}/"
     Exentbrite.delete(path, client)
   end
+
+  @doc """
+  Update an event
+
+  ## Examples
+
+      options = %{event: %{name: %{html: "test3"}}}
+      Exentbrite.Events.update client, 1234567890, options
+
+  """
+  def update(client, event_id, options \\ []) do
+    path = "events/#{event_id}/"
+    Exentbrite.post(path, client, options)
+  end
 end
