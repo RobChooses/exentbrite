@@ -96,7 +96,7 @@ defmodule Exentbrite.Events do
   """
   def publish(client, event_id) do
     path = "events/#{event_id}/publish/"
-    Exentbrite.post(path, client, event_id)
+    Exentbrite.post(path, client)
   end
 
   @doc """
@@ -109,7 +109,7 @@ defmodule Exentbrite.Events do
   """
   def unpublish(client, event_id) do
     path = "events/#{event_id}/unpublish/"
-    Exentbrite.post(path, client, event_id)
+    Exentbrite.post(path, client)
   end
 
   @doc """
